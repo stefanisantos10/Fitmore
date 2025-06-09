@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FitMoro - Laranja Moro para Emagrecimento</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #fff7f0; margin: 0; padding: 0; color: #333; }
+    header { background: linear-gradient(to right, #ff7043, #ffa726); color: white; padding: 20px; text-align: center; font-size: 24px; font-weight: bold; }
+    nav { text-align: center; padding: 10px; background: #ffe0b2; }
+    nav a { margin: 0 10px; color: #e65100; text-decoration: none; font-weight: bold; }
+    .products { display: flex; justify-content: center; flex-wrap: wrap; padding: 20px; gap: 20px; }
+    .product { background: white; border-radius: 10px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 280px; text-align: center; }
+    .product img { width: 100%; border-radius: 10px; }
+    .product h3 { margin: 10px 0 5px; color: #ff7043; }
+    .product p { font-weight: bold; margin: 0 0 10px; }
+    .product button { background: #ff7043; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; }
+    .product button:hover { background: #f4511e; }
+    #cart { background: #fff3e0; margin: 20px auto; padding: 20px; border-radius: 10px; max-width: 500px; }
+    #cart h3 { margin-top: 0; color: #fb8c00; }
+    #cart ul { list-style: none; padding: 0; }
+    #cart ul li { margin: 8px 0; }
+    #cart-total { font-weight: bold; }
+    #finalize { background: #fb8c00; color: white; border: none; padding: 12px 20px; border-radius: 20px; width: 100%; cursor: pointer; margin-top: 10px; }
+    footer { background: #ffe0b2; text-align: center; padding: 15px; font-size: 14px; color: #555; }
+  </style>
+</head>
+<body>
+  <header>FitMoro - Laranja Moro para Emagrecimento</header>
+  <nav><a href="index.html">Início</a> | <a href="sobre.html">Sobre o Produto</a></nav>
+  <div class="products">
+    <div class="product">
+      <img src="https://via.placeholder.com/250?text=Laranja+Moro+Premium" alt="Produto 1">
+      <h3>Laranja Moro Premium</h3>
+      <p>R$ 89,90</p>
+      <button onclick="addToCart('Laranja Moro Premium', 89.90)">Comprar</button>
+    </div>
+    <div class="product">
+      <img src="https://via.placeholder.com/250?text=Shake+Detox" alt="Produto 2">
+      <h3>Shake Detox com Laranja Moro</h3>
+      <p>R$ 109,90</p>
+      <button onclick="addToCart('Shake Detox com Laranja Moro', 109.90)">Comprar</button>
+    </div>
+    <div class="product">
+      <img src="https://via.placeholder.com/250?text=Kit+3x+Laranja+Moro" alt="Produto 3">
+      <h3>Kit 3x Laranja Moro</h3>
+      <p>R$ 229,90</p>
+      <button onclick="addToCart('Kit 3x Laranja Moro', 229.90)">Comprar</button>
+    </div>
+  </div>
+  <div id="cart">
+    <h3>Seu Carrinho</h3>
+    <ul id="cart-items"></ul>
+    <p>Total: R$ <span id="cart-total">0.00</span></p>
+    <button id="finalize" onclick="finalizeOrder()">Finalizar Compra no WhatsApp</button>
+  </div>
+  <footer>© 2025 FitMoro. Todos os direitos reservados.</footer>
+  <script>
+    const cart = [];
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      renderCart();
+    }
+    function renderCart() {
+      const itemsEl = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+      itemsEl.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} - R$ ${item.price.toFixed(2)}`;
+        itemsEl.appendChild(li);
+        total += item.price;
+      });
+      totalEl.textContent = total.toFixed(2);
+    }
+    function finalizeOrder() {
+      if (cart.length === 0) {
+        alert('Seu carrinho está vazio!');
+        return;
+      }
+      const msg = cart.map(p => `- ${p.name} (R$ ${p.price.toFixed(2)})`).join('%0A');
+      const total = cart.reduce((sum, p) => sum + p.price, 0).toFixed(2);
+      const phone = '5512991314853';
+      const url = `https://wa.me/${phone}?text=Olá! Quero comprar:%0A${msg}%0ATotal: R$ ${total}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
